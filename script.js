@@ -86,6 +86,47 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'transformadores.geojson', label: 'Transformadores', checked: false }
     ];
 
+    // Definição de estilos e ícones para cada tipo de camada GeoJSON
+const layerStyles = {
+    'rede_bt.geojson': {
+        color: '#FFFF00', // Amarelo
+        weight: 3,
+        opacity: 0.7
+    },
+    'rede_mt.geojson': {
+        color: '#FFA500', // Laranja
+        weight: 3,
+        opacity: 0.7
+    },
+    'postes.geojson': {
+        color: '#000000', // Preto
+        radius: 6, // Tamanho do ponto
+        fillColor: '#0000FF',
+        color: '#000', // Cor da borda
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    },
+    'chaves.geojson': {
+        color: '#0000FF', // Azul
+        radius: 6,
+        fillColor: '#008000',
+        color: '#000',
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    },
+    'transformadores.geojson': {
+        color: '#FF0000', // Vermelho
+        radius: 6, 
+        fillColor: '#FF00FF',
+        color: '#000',
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    }
+};
+    //------------------------------------
     function mostrarErro(mensagem) {
         mensagemErro.textContent = mensagem;
         setTimeout(() => {
@@ -107,19 +148,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const data = await response.json();
 
+            // Reprojetar para WGS84
             const reprojectedGeoJSON = reprojectGeoJSON(data, "EPSG:31984");
             const correctedGeoJSON = turf.rewind(reprojectedGeoJSON, { reverse: false });
 
-            const layer = L.geoJSON(correctedGeoJSON, {
-                style: function (feature) {
-                    return {
-                        color: '#3388ff',
-                        weight: 2,
-                        opacity: 0.8,
-                        fillColor: '#3388ff',
-                        fillOpacity: 0.5
-                    };
-                },
+            // Obter o estilo para o arquivo atual
+            const style = layerStyles[fileName];
+
+            const geoJsonOptions = {
+            style: function(feature) {
+                // Para LineString e Polygon, usa o estilo definido
+                return style;
+            },
+            pointToLayer: function (feature, latlng) {
+                // Para Point, cria um CircleMarker com o estilo definido
+                // Verifica se o estilo existe e se tem as propriedades de ponto (radius, fillColor, etc.)
+                if (style && style.radius) {
+                    return L.circleMarker(latlng, style);
+                }
+                // Fallback para o marcador padrão se não for um ponto ou não tiver estilo de ponto
+                return L.marker(latlng);
+            },
                 onEachFeature: function (feature, layer) {
                     if (feature.properties) {
                         let popupContent = '';
@@ -133,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-            }); // Não adicione ao mapa ainda, apenas crie a camada
+            }; // Não adicione ao mapa ainda, apenas crie a camada
 
             // Armazena a camada no objeto, usando o nome do arquivo como chave
             loadedGeojsonLayers[fileName] = layer;
