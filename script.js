@@ -27,17 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //-------------------------------------------------------------------
     // Adiciona a camada base do OpenStreetMap
-   // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-     //   maxZoom: 19,
-      //  attribution: '© OpenStreetMap'
-  //  }).addTo(mapa);
-
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-    maxZoom: 19 // Geralmente vai até zoom 19
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
     }).addTo(mapa);
-    
     //-------------------------------------------------------------------
+    
     // --- Definição do sistema de projeção UTM ---
     proj4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
     proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
