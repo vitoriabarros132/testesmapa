@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'chaves.geojson', label: 'Chaves', checked: false },
         { name: 'postes.geojson', label: 'Postes', checked: false },
         { name: 'rede_bt.geojson', label: 'Rede BT', checked: true }, // DEFAULT: REDE BT ATIVA
-        { name: 'rede_mt.geojson', label: 'Rede MT', checked: true }, //DEFAULT: REDE MT ATIVA
+        { name: 'rede_mt.geojson', label: 'Rede MT', checked: false }, 
         { name: 'transformadores.geojson', label: 'Transformadores', checked: false }
     ];
 
