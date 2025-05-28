@@ -23,7 +23,7 @@ console.log("Firebase app e instâncias auth/storage inicializadas globalmente."
 document.addEventListener('DOMContentLoaded', () => {
 
     // Centraliza o mapa na Rua Osvaldo dos Santos com um zoom inicial de 16
-    var mapa = L.map('mapa').setView([-11.276615, -37.447377], 10);
+    var mapa = L.map('mapa').setView([-11.296345, -37.365581], 10);
 
     // Adiciona a camada base do OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -183,11 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 mapa.fitBounds(bounds);
             } else {
                 console.warn("Bounds inválidos para as GeoJSONs carregadas. Talvez as coordenadas estejam fora da tela ou os arquivos estejam vazios.");
-                mapa.setView([-11.276615, -37.447377], 10);
+                mapa.setView([-11.296345, -37.365581], 10);
             }
         } else {
             console.warn("Nenhuma camada visível inicialmente.");
-            mapa.setView([-11.276615, -37.447377], 10);
+            mapa.setView([-11.296345, -37.365581], 10);
         }
 
         // Adiciona ouvintes de evento aos checkboxes
