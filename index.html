@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Visualizador de Mapa</title>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="estilo.css" />
+
+</head>
+<body>
+    <div id="login-container">
+        <h2>Acesso Restrito ao Mapa</h2>
+        <input type="email" id="email" placeholder="E-mail" required />
+        <input type="password" id="senha" placeholder="Senha" required />
+        <button id="btn-login">Entrar</button>
+        <button id="btn-logout" style="display: none;">Sair</button>
+        <p id="mensagem-erro" style="color: red;"></p>
+    </div>
+
+    <div id="mapa-container" style="display: none;">
+        <div id="mapa"></div>
+
+        <div id="layer-control">
+            <h3>Camadas</h3>
+            <label><input type="checkbox" id="checkbox-chaves" data-geojson="chaves.geojson"> Chaves</label><br>
+            <label><input type="checkbox" id="checkbox-postes" data-geojson="postes.geojson"> Postes</label><br>
+            <label><input type="checkbox" id="checkbox-rede_bt" data-geojson="rede_bt.geojson"> Rede Baixa Tensão</label><br>
+            <label><input type="checkbox" id="checkbox-rede_mt" data-geojson="rede_mt.geojson"> Rede Média Tensão</label><br>
+            <label><input type="checkbox" id="checkbox-transformadores" data-geojson="transformadores.geojson"> Transformadores</label><br>
+            </div>
+
+    </div>
+ 
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.15.0/proj4.js"></script>
+    <script src="turf.min.js" charset="utf-8"></script> 
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+
+    <script src="script.js" type="text/javascript"></script>
+ 
+</body>
+</html>
