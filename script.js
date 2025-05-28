@@ -165,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const layer = await loadAndAddGeoJSON(config.name, config.checked);
             if (layer && config.checked) {
                 initiallyVisibleLayers.push(layer);
+                console.log(`Camada adicionada para fitBounds: ${config.name}`);
             }
 
             // Atualiza o estado do checkbox
@@ -178,7 +179,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Ajusta o zoom do mapa para cobrir as camadas visíveis inicialmente
         if (initiallyVisibleLayers.length > 0) {
-            const bounds = new L.featureGroup(initiallyVisibleLayers).getBounds();
+            const featureGroupForBounds = new L.featureGroup(initiallyVisibleLayers);
+            const bounds = featureGroupForBounds.getBounds(); // Calcule os limites
+
+            console.log("---------------------------------------");
+            console.log("Camadas no featureGroup para bounds:", initiallyVisibleLayers);
+            console.log("Objeto Bounds completo:", bounds); // Mostrar o objeto completo
+            console.log("Bounds são válidos?", bounds.isValid());
+            // Verifique se as coordenadas são números válidos e não NaN/Infinity
+            console.log("Coordenadas SW (lat, lon):", bounds._southWest ? [bounds._southWest.lat, bounds._southWest.lng] : 'N/A');
+            console.log("Coordenadas NE (lat, lon):", bounds._northEast ? [bounds._northEast.lat, bounds._northEast.lng] : 'N/A');
+            console.log("---------------------------------------");
+            
             if (bounds.isValid()) {
                 mapa.fitBounds(bounds);
             } else {
