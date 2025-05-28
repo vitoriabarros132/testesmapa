@@ -25,12 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Centraliza o mapa na Rua Osvaldo dos Santos com um zoom inicial de 16
     var mapa = L.map('mapa').setView([-11.296345, -37.365581], 10);
 
+    //-------------------------------------------------------------------
     // Adiciona a camada base do OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(mapa);
+   // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+     //   maxZoom: 19,
+      //  attribution: '© OpenStreetMap'
+  //  }).addTo(mapa);
 
+    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+    maxZoom: 19, // Stamen Toner geralmente vai até 18 ou 19
+    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+    }).addTo(mapa);
+    
+    //-------------------------------------------------------------------
     // --- Definição do sistema de projeção UTM ---
     proj4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
     proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
