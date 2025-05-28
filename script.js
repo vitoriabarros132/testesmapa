@@ -156,9 +156,8 @@ const layerStyles = {
             const style = layerStyles[fileName];
 
             const geoJsonOptions = {
-            style: style,
-                
-            pointToLayer: function (feature, latlng) {
+                style: style,
+                pointToLayer: function (feature, latlng) {
                 // Para Point, cria um CircleMarker com o estilo definido
                 // Verifica se o estilo existe e se tem as propriedades de ponto (radius, fillColor, etc.)
                 if (style && style.radius) {
@@ -166,7 +165,7 @@ const layerStyles = {
                 }
                 // Fallback para o marcador padrão se não for um ponto ou não tiver estilo de ponto
                 return L.marker(latlng);
-            },
+                },
                 onEachFeature: function (feature, layer) {
                     if (feature.properties) {
                         let popupContent = '';
