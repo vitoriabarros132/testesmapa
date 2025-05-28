@@ -195,11 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 mapa.fitBounds(bounds);
             } else {
                 console.warn("Bounds inválidos para as GeoJSONs carregadas. Talvez as coordenadas estejam fora da tela ou os arquivos estejam vazios.");
-                mapa.setView([-11.296345, -37.365581], 10);
+                mapa.setView([-11.296345, -37.365581], 12);
             }
         } else {
             console.warn("Nenhuma camada visível inicialmente.");
-            mapa.setView([-11.296345, -37.365581], 10);
+            mapa.setView([-11.296345, -37.365581], 12);
         }
 
         // Adiciona ouvintes de evento aos checkboxes
