@@ -12,9 +12,12 @@ body {
 
 /* Estilo para o container do mapa */
 #mapa-container {
+    position: absolute; 
+    top: 0;             
+    left: 0;           
     width: 100%;
     height: 100vh;
-    display: none; /* Inicia escondido, controlado pelo JavaScript */
+    display: none;
 }
 
 #mapa {
