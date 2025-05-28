@@ -156,10 +156,8 @@ const layerStyles = {
             const style = layerStyles[fileName];
 
             const geoJsonOptions = {
-            style: function(feature) {
-                // Para LineString e Polygon, usa o estilo definido
-                return style;
-            },
+            style: style,
+                
             pointToLayer: function (feature, latlng) {
                 // Para Point, cria um CircleMarker com o estilo definido
                 // Verifica se o estilo existe e se tem as propriedades de ponto (radius, fillColor, etc.)
