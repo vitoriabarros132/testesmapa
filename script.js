@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             opacity: 0.7
         },
         'postes.geojson': {
-            radius: 6, // Tamanho do ponto
+            radius: 3, // Tamanho do ponto
             fillColor: '#9d9d9d', // Cor do ponto - Cinza escuro
             color: '#000', // Cor da borda - Preto
             weight: 1,
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillOpacity: 0.8
         },
         'chaves.geojson': {
-            radius: 6,
+            radius: 8,
             fillColor: '#3034a5', // Azul
             color: '#000',
             weight: 1,
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillOpacity: 0.8
         },
         'transformadores.geojson': {
-            radius: 6, 
+            radius: 8, 
             fillColor: '#a53030', // Vermelho
             color: '#000',
             weight: 1,
@@ -163,8 +163,77 @@ document.addEventListener('DOMContentLoaded', () => {
         const geoJsonOptions = {
             style: style,
             pointToLayer: function (feature, latlng) {
-                // Para Point, cria um CircleMarker com o estilo definido
-                // Verifica se o estilo existe e se tem as propriedades de ponto (radius, fillColor, etc.)
+                const currentStyle = layerStyles[fileName];
+                // Verifica o nome do arquivo
+                if (fileName === 'postes.geojson') {
+                    // === Postes: Quadrado ===
+                    const size = 10; // Tamanho do lado do quadrado
+                    const squareFillColor = currentStyle.fillColor || '#9d9d9d';
+                    const squareBorderColor = currentStyle.color || '#000000';
+                    const squareBorderSize = currentStyle.weight || 1;
+                    const squareFillOpacity = currentStyle.fillOpacity || 1;
+
+                    const iconHtml = `<div style="
+                        background-color: ${squareFillColor};
+                        width: ${size}px;
+                        height: ${size}px;
+                        border: ${squareBorderSize}px solid ${squareBorderColor};
+                        opacity: ${squareFillOpacity};
+                     "></div>`;
+
+                    const squareIcon = L.divIcon({
+                        className: 'custom-square-marker',
+                        html: iconHtml,
+                        iconSize: [size + squareBorderSize * 2, size + squareBorderSize * 2],
+                        iconAnchor: [(size + squareBorderSize * 2) / 2, (size + squareBorderSize * 2) / 2]
+                    });
+                    return L.marker(latlng, { icon: squareIcon });
+
+                 } else if (fileName === 'chaves.geojson') {
+                    // === Chaves: Triângulo (usando CSS border tricks) ===
+                    const size = 12; // Tamanho da base do triângulo
+                    const triangleColor = currentStyle.fillColor || '#3034a5'; // Cor do triângulo
+                    const triangleBorderColor = currentStyle.color || '#000000';
+                    const triangleBorderSize = currentStyle.weight || 1;
+                    const triangleOpacity = currentStyle.fillOpacity || 1; // Opacidade do triângulo
+                    // Para criar um triângulo com CSS, usamos bordas de um div
+                    // O triângulo apontará para cima. Ajuste as bordas conforme a direção desejada.
+                    const iconHtml = `<div style="
+                        width: 0;
+                        height: 0;
+                        border-left: ${size / 2}px solid transparent;
+                        border-right: ${size / 2}px solid transparent;
+                        border-bottom: ${size * 0.866}px solid ${triangleColor}; /* Altura do triângulo equilátero */
+                        opacity: ${triangleOpacity};
+                    "></div>`;
+                    
+                    const triangleIcon = L.divIcon({
+                        className: 'custom-triangle-marker',
+                        html: iconHtml,
+                        // O iconSize e iconAnchor precisam ser ajustados para a forma do triângulo
+                        iconSize: [size, size * 0.866], // Largura = base, Altura = altura do triângulo
+                        iconAnchor: [size / 2, size * 0.866] // Âncora na parte inferior central do triângulo
+                    });
+                    return L.marker(latlng, { icon: triangleIcon });
+                } else if (fileName === 'transformadores.geojson') {
+                    // === Transformadores: Círculo (voltando a usar L.circleMarker) ===
+                    // Verifica se o estilo existe e se tem as propriedades de ponto (radius, fillColor, etc.)
+                    if (currentStyle && currentStyle.radius) {
+                        return L.circleMarker(latlng, currentStyle);
+                    }
+                    // Fallback para o marcador padrão se o estilo não for válido para círculo
+                    return L.marker(latlng);
+                }
+
+                // Fallback para outras geometrias (linhas, polígonos) ou se não for um dos pontos específicos
+                // Para linhas e polígonos, o Leaflet aplica o 'style' diretamente.
+                // Se for um ponto não especificado acima, retorna um marcador padrão.
+                if (feature.geometry.type === 'Point') {
+                    return L.marker(latlng); // Marcador padrão para outros pontos não configurados
+                }
+                return null; // Não cria marcador para outras geometrias (linhas/polígonos) se não houver um pointToLayer para elas
+            },
+                    
                 if (style && style.radius) {
                     return L.circleMarker(latlng, style);
                 }
