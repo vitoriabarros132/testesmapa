@@ -89,18 +89,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Definição de estilos e ícones para cada tipo de camada GeoJSON
 const layerStyles = {
     'rede_bt.geojson': {
-        color: '#FFFF00', // Amarelo
+        color: '#c4c417', // Amarelo
         weight: 3,
         opacity: 0.7
     },
     'rede_mt.geojson': {
-        color: '#FFA500', // Laranja
+        color: '#ee9722', // Laranja
         weight: 3,
         opacity: 0.7
     },
     'postes.geojson': {
         radius: 6, // Tamanho do ponto
-        fillColor: '#9D9D9D', // Cor do ponto - Cinza escuro
+        fillColor: '#9d9d9d', // Cor do ponto - Cinza escuro
         color: '#000', // Cor da borda - Preto
         weight: 1,
         opacity: 1,
@@ -108,7 +108,7 @@ const layerStyles = {
     },
     'chaves.geojson': {
         radius: 6,
-        fillColor: '#0000FF', // Azul
+        fillColor: '#3034a5', // Azul
         color: '#000',
         weight: 1,
         opacity: 1,
@@ -116,7 +116,7 @@ const layerStyles = {
     },
     'transformadores.geojson': {
         radius: 6, 
-        fillColor: '#FF0000', // Vermelho
+        fillColor: '#a53030', // Vermelho
         color: '#000',
         weight: 1,
         opacity: 1,
