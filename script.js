@@ -80,56 +80,57 @@ document.addEventListener('DOMContentLoaded', () => {
     // Esta lista agora inclui o estado inicial (checked: true/false)
     const geojsonLayerConfigs = [
         { name: 'chaves.geojson', label: 'Chaves', checked: false },
-        { name: 'postes.geojson', label: 'Postes', checked: false },
-        { name: 'rede_bt.geojson', label: 'Rede BT', checked: false }, 
+        { name: 'postes.geojson', label: 'Postes', checked: false }, 
         { name: 'rede_mt.geojson', label: 'Rede MT', checked: false }, 
         { name: 'transformadores.geojson', label: 'Transformadores', checked: false }
     ];
 
+    const popupDisplayConfigs = {
+        'rede_mt.geojson': ['CTMT'],
+        'postes.geojson': ['Poste', 'Tipo_Poste', 'Coord_X', 'Coord_Y'], 
+        'chaves.geojson': ['NumPlaca', 'Coordenada', 'Coordena_1'], 
+        'transformadores.geojson': ['NumPlaca', 'Fases', 'Potencia', 'Num_Serie'] 
+    };
+    
     // Definição de estilos e ícones para cada tipo de camada GeoJSON
-const layerStyles = {
-    'rede_bt.geojson': {
-        color: '#c4c417', // Amarelo
-        weight: 3,
-        opacity: 0.7
-    },
-    'rede_mt.geojson': {
-        color: '#ee9722', // Laranja
-        weight: 3,
-        opacity: 0.7
-    },
-    'postes.geojson': {
-        radius: 6, // Tamanho do ponto
-        fillColor: '#9d9d9d', // Cor do ponto - Cinza escuro
-        color: '#000', // Cor da borda - Preto
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    },
-    'chaves.geojson': {
-        radius: 6,
-        fillColor: '#3034a5', // Azul
-        color: '#000',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    },
-    'transformadores.geojson': {
-        radius: 6, 
-        fillColor: '#a53030', // Vermelho
-        color: '#000',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    }
-};
+    const layerStyles = {
+        'rede_mt.geojson': {
+            color: '#ee9722', // Laranja
+            weight: 3,
+            opacity: 0.7
+        },
+        'postes.geojson': {
+            radius: 6, // Tamanho do ponto
+            fillColor: '#9d9d9d', // Cor do ponto - Cinza escuro
+            color: '#000', // Cor da borda - Preto
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        },
+        'chaves.geojson': {
+            radius: 6,
+            fillColor: '#3034a5', // Azul
+            color: '#000',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        },
+        'transformadores.geojson': {
+            radius: 6, 
+            fillColor: '#a53030', // Vermelho
+            color: '#000',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        }
+    };
     // Configuração dos atributos a serem usados como rótulos (tooltips permanentes)
-const labelAttributes = {
-    'chaves.geojson': 'NumPlaca',
-    'transformadores.geojson': 'NumPlaca'
+    const labelAttributes = {
+        'chaves.geojson': 'NumPlaca',
+        'transformadores.geojson': 'NumPlaca'
     // Não precisamos configurar para rede_bt e rede_mt, pois não são pontos.
     // A visualização dos postes fica muito pesada, então não é mostrado.
-};
+    };
     //------------------------------------
     function mostrarErro(mensagem) {
         mensagemErro.textContent = mensagem;
@@ -174,8 +175,9 @@ const labelAttributes = {
             onEachFeature: function (feature, layer) {
                 if (feature.properties) {
                     let popupContent = '';
-                    for (const key in feature.properties) {
-                            if (feature.properties.hasOwnProperty(key) && feature.properties[key] !== null) {
+                    const allowedAttributes = popupDisplayConfigs[fileName] || Object.keys(feature.properties);                   
+                    for (const key in allowedAttributes) {
+                            if (feature.properties.hasOwnProperty(key) && feature.properties[key] !== null && feature.properties[key] !== undefined) {
                                 popupContent += `<b>${key}:</b> ${feature.properties[key]}<br>`;
                             }
                     }
