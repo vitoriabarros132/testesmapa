@@ -140,28 +140,28 @@ const labelAttributes = {
 
     // Função para carregar e adicionar um GeoJSON ao mapa
     // Esta função agora também aceita um parâmetro 'visible'
-    async function loadAndAddGeoJSON(fileName, visible = true) {
-        const geojsonRef = storage.ref(`geojson_data/${fileName}`);
+   async function loadAndAddGeoJSON(fileName, visible = true) {
+    const geojsonRef = storage.ref(`geojson_data/${fileName}`);
 
-        try {
-            const url = await geojsonRef.getDownloadURL();
-            const response = await fetch(url);
+    try {
+        const url = await geojsonRef.getDownloadURL();
+        const response = await fetch(url);
 
-            if (!response.ok) {
-                throw new Error(`Erro ao carregar ${fileName}: ${response.status}`);
-            }
-            const data = await response.json();
+        if (!response.ok) {
+            throw new Error(`Erro ao carregar ${fileName}: ${response.status}`);
+        }
+        const data = await response.json();
 
-            // Reprojetar para WGS84
-            const reprojectedGeoJSON = reprojectGeoJSON(data, "EPSG:31984");
-            const correctedGeoJSON = turf.rewind(reprojectedGeoJSON, { reverse: false });
+        // Reprojetar para WGS84
+        const reprojectedGeoJSON = reprojectGeoJSON(data, "EPSG:31984");
+        const correctedGeoJSON = turf.rewind(reprojectedGeoJSON, { reverse: false });
 
-            // Obter o estilo para o arquivo atual
-            const style = layerStyles[fileName];
+        // Obter o estilo para o arquivo atual
+        const style = layerStyles[fileName];
 
-            const geoJsonOptions = {
-                style: style,
-                pointToLayer: function (feature, latlng) {
+        const geoJsonOptions = {
+            style: style,
+            pointToLayer: function (feature, latlng) {
                 // Para Point, cria um CircleMarker com o estilo definido
                 // Verifica se o estilo existe e se tem as propriedades de ponto (radius, fillColor, etc.)
                 if (style && style.radius) {
@@ -169,70 +169,74 @@ const labelAttributes = {
                 }
                 // Fallback para o marcador padrão se não for um ponto ou não tiver estilo de ponto
                 return L.marker(latlng);
-                },
-                onEachFeature: function (feature, layer) {
-                    if (feature.properties) {
-                        let popupContent = '';
-                        for (const key in feature.properties) {
-                            if (feature.properties.hasOwnProperty(key) && feature.properties[key] !== null) {
-                                popupContent += `<b>${key}:</b> ${feature.properties[key]}<br>`;
-                            }
+            },
+            // AQUI COMEÇA A PROPRIEDADE onEachFeature, DENTRO DE geoJsonOptions
+            onEachFeature: function (feature, layer) {
+                if (feature.properties) {
+                    let popupContent = '';
+                    // Usando a configuração de popups que discutimos anteriormente
+                    const allowedAttributes = popupDisplayConfigs[fileName] || Object.keys(feature.properties);
+
+                    for (const key of allowedAttributes) {
+                        if (feature.properties.hasOwnProperty(key) && feature.properties[key] !== null && feature.properties[key] !== undefined) {
+                            popupContent += `<b>${key}:</b> ${feature.properties[key]}<br>`;
                         }
-                        if (popupContent) {
-                            layer.bindPopup(popupContent);
-                        }
-                        // === ADICIONAR RÓTULO/TOOLTIP AQUI ===
-                    
-                        const labelAttributeName = labelAttributes[fileName]; // Pega o nome do atributo de rótulo para este arquivo
-
-                        if (feature.geometry.type === 'Point' && labelAttributeName && feature.properties[labelAttributeName]) {
-                            const labelText = feature.properties[labelAttributeName].toString(); // Pega o valor do atributo específico
-
-                            const tooltip = layer.bindTooltip(labelText, {
-                                permanent: true, // Define se o rótulo é sempre visível
-                                direction: 'top', // Posição do rótulo
-                                className: 'point-label' // Classe CSS para estilização personalizada
-                            });
-
-                            // Opcional: Esconde o rótulo em zooms baixos para evitar sobreposição
-                            // Adapte o nível de zoom conforme a necessidade
-                            mapa.on('zoomend', function () {
-                                // Acessa o elemento DOM do tooltip para mudar sua opacidade
-                                if (tooltip._container) { // Verifica se o container existe (o tooltip precisa estar aberto/renderizado)
-                                    if (mapa.getZoom() < 17) {
-                                        tooltip._container.style.opacity = 0; // Define opacidade via CSS
-                                    } else {
-                                        tooltip._container.style.opacity = 1;
-                                    }
-                                }
-                            });
-
-                            // Define o estado inicial do rótulo com base no zoom atual do mapa
-                            if (tooltip._container) { // Verifica se o container existe
-                                if (mapa.getZoom() < 17) {
-                                    tooltip._container.style.opacity = 0;
-                                }
-                            }
-                        // ====================================
                     }
-                }
-            } // Não adicione ao mapa ainda, apenas crie a camada
+                    if (popupContent) {
+                        layer.bindPopup(popupContent);
+                    }
 
-            // Armazena a camada no objeto, usando o nome do arquivo como chave
-            const geoJsonLayer = L.geoJSON(correctedGeoJSON, geoJsonOptions);
-            loadedGeojsonLayers[fileName] = geoJsonLayer;
+                    // === LÓGICA DO RÓTULO/TOOLTIP ===
+                    const labelAttributeName = labelAttributes[fileName]; // Pega o nome do atributo de rótulo para este arquivo
 
-            if (visible) {
-                geoJsonLayer.addTo(mapa); // Adiciona ao mapa se for para ser visível
-            }
+                    if (feature.geometry.type === 'Point' && labelAttributeName && feature.properties[labelAttributeName]) {
+                        const labelText = feature.properties[labelAttributeName].toString(); // Pega o valor do atributo específico
 
-            return geoJsonLayer; // Retorna a camada para ajuste de bounds, se necessário
-        } catch (error) {
-            console.error(`Erro ao carregar ou processar ${fileName}:`, error);
-            mostrarErro(`Falha ao carregar dados do mapa: ${fileName}.`);
-            return null;
+                        const tooltip = layer.bindTooltip(labelText, {
+                            permanent: true, // Define se o rótulo é sempre visível
+                            direction: 'top', // Posição do rótulo
+                            className: 'point-label' // Classe CSS para estilização personalizada
+                        });
+
+                        // Adiciona um listener para o evento 'zoomend' do mapa
+                        mapa.on('zoomend', function () {
+                            // Acessa o elemento DOM do tooltip para mudar sua opacidade
+                            if (tooltip._container) { // Verifica se o container existe (o tooltip precisa estar aberto/renderizado)
+                                if (mapa.getZoom() < 17) {
+                                    tooltip._container.style.opacity = 0; // Define opacidade via CSS
+                                } else {
+                                    tooltip._container.style.opacity = 1;
+                                }
+                            }
+                        });
+
+                        // Define o estado inicial do rótulo com base no zoom atual do mapa
+                        if (tooltip._container) { // Verifica se o container existe
+                            if (mapa.getZoom() < 17) {
+                                tooltip._container.style.opacity = 0;
+                            }
+                        }
+                    }
+                    // ====================================
+                } // Fecha o if (feature.properties)
+            } // Fecha a função onEachFeature
+        }; // Fecha o objeto geoJsonOptions
+
+        // Armazena a camada no objeto, usando o nome do arquivo como chave
+        const geoJsonLayer = L.geoJSON(correctedGeoJSON, geoJsonOptions);
+        loadedGeojsonLayers[fileName] = geoJsonLayer;
+
+        if (visible) {
+            geoJsonLayer.addTo(mapa); // Adiciona ao mapa se for para ser visível
         }
+
+        return geoJsonLayer; // Retorna a camada para ajuste de bounds, se necessário
+    } catch (error) {
+        console.error(`Erro ao carregar ou processar ${fileName}:`, error);
+        mostrarErro(`Falha ao carregar dados do mapa: ${fileName}.`);
+        return null;
     }
+}
 
     // Função para carregar TODAS as camadas GeoJSON e configurá-las
     async function loadAllGeoJSONsAndSetupControls() {
