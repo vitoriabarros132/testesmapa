@@ -101,7 +101,7 @@ const layerStyles = {
     'postes.geojson': {
         color: '#000000', // Preto
         radius: 6, // Tamanho do ponto
-        fillColor: '#0000FF',
+        fillColor: '#000000', // Preto
         color: '#000', // Cor da borda
         weight: 1,
         opacity: 1,
@@ -110,7 +110,7 @@ const layerStyles = {
     'chaves.geojson': {
         color: '#0000FF', // Azul
         radius: 6,
-        fillColor: '#008000',
+        fillColor: '#0000FF', // Azul
         color: '#000',
         weight: 1,
         opacity: 1,
@@ -119,7 +119,7 @@ const layerStyles = {
     'transformadores.geojson': {
         color: '#FF0000', // Vermelho
         radius: 6, 
-        fillColor: '#FF00FF',
+        fillColor: '#FF0000', // Vermelho
         color: '#000',
         weight: 1,
         opacity: 1,
