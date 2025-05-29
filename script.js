@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //-------------------------------------------------------------------
     // Adiciona a camada base do OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+        maxZoom: 25,
         attribution: '© OpenStreetMap'
     }).addTo(mapa);
     //-------------------------------------------------------------------
