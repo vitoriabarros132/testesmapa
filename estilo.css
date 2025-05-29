@@ -107,7 +107,7 @@ body {
 /* Estilos para o controle de camadas */
 #layer-control {
     position: fixed; /* Posiciona o controle de camadas fixamente na tela */
-    top: 70px; /* Ajuste para não colidir com o botão de logout (que está a 10px do topo) */
+    top: 75px; /* Ajuste para não colidir com o botão de logout (que está a 10px do topo) */
     left: 10px; /* 10 pixels da esquerda */
     background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
     padding: 15px;
