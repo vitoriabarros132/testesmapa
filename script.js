@@ -126,9 +126,9 @@ const layerStyles = {
     // Configuração dos atributos a serem usados como rótulos (tooltips permanentes)
 const labelAttributes = {
     'chaves.geojson': 'NumPlaca',
-    'transformadores.geojson': 'NumPlaca',
-    'postes.geojson': 'Poste'
+    'transformadores.geojson': 'NumPlaca'
     // Não precisamos configurar para rede_bt e rede_mt, pois não são pontos.
+    // A visualização dos postes fica muito pesada, então não é mostrado.
 };
     //------------------------------------
     function mostrarErro(mensagem) {
