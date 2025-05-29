@@ -215,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         iconAnchor: [size / 2, size * 0.866] // Âncora na parte inferior central do triângulo
                     });
                     return L.marker(latlng, { icon: triangleIcon });
+                    
                 } else if (fileName === 'transformadores.geojson') {
                     // === Transformadores: Círculo (voltando a usar L.circleMarker) ===
                     // Verifica se o estilo existe e se tem as propriedades de ponto (radius, fillColor, etc.)
@@ -234,12 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return null; // Não cria marcador para outras geometrias (linhas/polígonos) se não houver um pointToLayer para elas
             },
                     
-                if (style && style.radius) {
-                    return L.circleMarker(latlng, style);
-                }
-                // Fallback para o marcador padrão se não for um ponto ou não tiver estilo de ponto
-                return L.marker(latlng);
-            },
             // AQUI COMEÇA A PROPRIEDADE onEachFeature, DENTRO DE geoJsonOptions
             onEachFeature: function (feature, layer) {
                 if (feature.properties) {
