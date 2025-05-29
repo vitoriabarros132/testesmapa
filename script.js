@@ -216,7 +216,7 @@ const labelAttributes = {
                         // ====================================
                     }
                 }
-            }; // Não adicione ao mapa ainda, apenas crie a camada
+            } // Não adicione ao mapa ainda, apenas crie a camada
 
             // Armazena a camada no objeto, usando o nome do arquivo como chave
             const geoJsonLayer = L.geoJSON(correctedGeoJSON, geoJsonOptions);
