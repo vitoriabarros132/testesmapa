@@ -197,18 +197,22 @@ const labelAttributes = {
                             // Opcional: Esconde o rótulo em zooms baixos para evitar sobreposição
                             // Adapte o nível de zoom conforme a necessidade
                             mapa.on('zoomend', function () {
-                                if (mapa.getZoom() < 17) { // Exemplo: esconde se o zoom for menor que 17
-                                    tooltip.setOpacity(0);
-                                } else {
-                                    tooltip.setOpacity(1);
+                                // Acessa o elemento DOM do tooltip para mudar sua opacidade
+                                if (tooltip._container) { // Verifica se o container existe (o tooltip precisa estar aberto/renderizado)
+                                    if (mapa.getZoom() < 17) {
+                                        tooltip._container.style.opacity = 0; // Define opacidade via CSS
+                                    } else {
+                                        tooltip._container.style.opacity = 1;
+                                    }
                                 }
                             });
 
-                            // Garante o estado inicial do rótulo ao carregar o mapa
-                            if (mapa.getZoom() < 17) {
-                                tooltip.setOpacity(0);
+                            // Define o estado inicial do rótulo com base no zoom atual do mapa
+                            if (tooltip._container) { // Verifica se o container existe
+                                if (mapa.getZoom() < 17) {
+                                    tooltip._container.style.opacity = 0;
+                                }
                             }
-                        }
                         // ====================================
                     }
                 }
