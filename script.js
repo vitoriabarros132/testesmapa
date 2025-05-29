@@ -100,8 +100,8 @@ const layerStyles = {
     },
     'postes.geojson': {
         radius: 6, // Tamanho do ponto
-        fillColor: '#000000', // Cor do ponto - Preto
-        color: '#FFF', // Cor da borda - Branco
+        fillColor: '#9D9D9D', // Cor do ponto - Cinza escuro
+        color: '#000', // Cor da borda - Preto
         weight: 1,
         opacity: 1,
         fillOpacity: 0.8
