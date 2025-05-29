@@ -360,7 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loginContainer.style.display = 'none';
             mapaContainer.style.display = 'block';
             btnLogout.style.display = 'block';
-            layerControl.style.display = 'block'; // Mostra o controle de camadas
 
             // MUDE esta chamada
             await loadAllGeoJSONsAndSetupControls();
@@ -371,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loginContainer.style.display = 'block';
             mapaContainer.style.display = 'none';
             btnLogout.style.display = 'none';
-            layerControl.style.display = 'none'; // Esconde o controle de camadas
 
             // Remove todas as camadas do mapa ao deslogar
             for (const fileName in loadedGeojsonLayers) {
