@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (feature.properties) {
                     let popupContent = '';
                     const allowedAttributes = popupDisplayConfigs[fileName] || Object.keys(feature.properties);                   
-                    for (const key in allowedAttributes) {
+                    for (const key of allowedAttributes) {
                             if (feature.properties.hasOwnProperty(key) && feature.properties[key] !== null && feature.properties[key] !== undefined) {
                                 popupContent += `<b>${key}:</b> ${feature.properties[key]}<br>`;
                             }
