@@ -22,8 +22,8 @@ console.log("Firebase app e instâncias auth/storage inicializadas globalmente."
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Centraliza o mapa na Rua Osvaldo dos Santos com um zoom inicial de 16
-    var mapa = L.map('mapa').setView([-11.296345, -37.365581], 10);
+    // Centraliza o mapa 
+    var mapa = L.map('mapa').setView([-11.296345, -37.365581], 15);
 
     //-------------------------------------------------------------------
     // Adiciona a camada base do OpenStreetMap
