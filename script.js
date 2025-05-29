@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             opacity: 0.7
         },
         'postes.geojson': {
-            radius: 6, // Tamanho do ponto
+            radius: 3, // Tamanho do ponto
             fillColor: '#9d9d9d', // Cor do ponto - Cinza escuro
             color: '#000', // Cor da borda - Preto
             weight: 1,
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillOpacity: 0.8
         },
         'chaves.geojson': {
-            radius: 6,
+            radius: 8,
             fillColor: '#3034a5', // Azul
             color: '#000',
             weight: 1,
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillOpacity: 0.8
         },
         'transformadores.geojson': {
-            radius: 6, 
+            radius: 8, 
             fillColor: '#a53030', // Vermelho
             color: '#000',
             weight: 1,
