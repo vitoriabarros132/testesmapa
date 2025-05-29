@@ -174,13 +174,10 @@ const labelAttributes = {
             onEachFeature: function (feature, layer) {
                 if (feature.properties) {
                     let popupContent = '';
-                    // Usando a configuração de popups que discutimos anteriormente
-                    const allowedAttributes = popupDisplayConfigs[fileName] || Object.keys(feature.properties);
-
-                    for (const key of allowedAttributes) {
-                        if (feature.properties.hasOwnProperty(key) && feature.properties[key] !== null && feature.properties[key] !== undefined) {
-                            popupContent += `<b>${key}:</b> ${feature.properties[key]}<br>`;
-                        }
+                    for (const key in feature.properties) {
+                            if (feature.properties.hasOwnProperty(key) && feature.properties[key] !== null) {
+                                popupContent += `<b>${key}:</b> ${feature.properties[key]}<br>`;
+                            }
                     }
                     if (popupContent) {
                         layer.bindPopup(popupContent);
