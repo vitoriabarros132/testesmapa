@@ -137,3 +137,16 @@ body {
 .leaflet-tooltip-bottom:before {
     border-top-color: rgba(255, 255, 255, 0.8); /* Cor do ponteiro para combinar com o fundo */
 }
+
+/* Estilos para controles padrão do Leaflet */
+.leaflet-control-container .leaflet-top.leaflet-right,
+.leaflet-control-container .leaflet-top.leaflet-left,
+.leaflet-control-container .leaflet-bottom.leaflet-right,
+.leaflet-control-container .leaflet-bottom.leaflet-left {
+    z-index: 999; /* Garante que os controles fiquem acima do mapa */
+}
+
+/* Especificamente para o controle de camadas, se precisar de mais destaque */
+.leaflet-control-layers {
+    z-index: 1000; /* Pode ser maior se houver outros controles */
+}
