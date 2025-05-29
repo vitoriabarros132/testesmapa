@@ -104,6 +104,36 @@ body {
     background-color: #c82333;
 }
 
+/* Estilos para o controle de camadas */
+#layer-control {
+    position: fixed; /* Posiciona o controle de camadas fixamente na tela */
+    top: 60px; /* Ajuste para não colidir com o botão de logout (que está a 10px do topo) */
+    left: 10px; /* 10 pixels da esquerda */
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 999; /* Garante que fique acima do mapa, mas abaixo do btn-logout */
+    font-size: 0.9em;
+    color: #333;
+}
+
+#layer-control h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+#layer-control label {
+    display: block; /* Cada label em uma nova linha */
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#layer-control input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle; /* Alinha o checkbox com o texto */
+}
 
 /* Estilos para os rótulos de pontos (tooltips permanentes) */
 .point-label {
@@ -136,17 +166,4 @@ body {
 .leaflet-tooltip-top:before,
 .leaflet-tooltip-bottom:before {
     border-top-color: rgba(255, 255, 255, 0.8); /* Cor do ponteiro para combinar com o fundo */
-}
-
-/* Estilos para controles padrão do Leaflet */
-.leaflet-control-container .leaflet-top.leaflet-right,
-.leaflet-control-container .leaflet-top.leaflet-left,
-.leaflet-control-container .leaflet-bottom.leaflet-right,
-.leaflet-control-container .leaflet-bottom.leaflet-left {
-    z-index: 999; /* Garante que os controles fiquem acima do mapa */
-}
-
-/* Especificamente para o controle de camadas, se precisar de mais destaque */
-.leaflet-control-layers {
-    z-index: 1000; /* Pode ser maior se houver outros controles */
 }
