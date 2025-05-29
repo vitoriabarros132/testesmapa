@@ -86,7 +86,7 @@ body {
     position: fixed; /* Fixa o botão na tela, independentemente do scroll */
     top: 10px;        /* 10 pixels do topo da tela */
     right: 10px;      /* 10 pixels da direita da tela */
-    z-index: 1000;    /* Garante que o botão fique acima de tudo, incluindo o mapa */
+    z-index: 1111;    /* Garante que o botão fique acima de tudo, incluindo o mapa */
     /* Mantenha as outras propriedades de estilo (padding, background, color, etc.)
        que você já definiu para o #login-container #btn-logout ou adicione-as aqui se preferir. */
     padding: 12px 20px; /* Exemplo, pode ser o que você já tem */
