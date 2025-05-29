@@ -183,13 +183,13 @@ const layerStyles = {
 
             // Armazena a camada no objeto, usando o nome do arquivo como chave
             const geoJsonLayer = L.geoJSON(correctedGeoJSON, geoJsonOptions);
-            loadedGeojsonLayers[fileName] = layer;
+            loadedGeojsonLayers[fileName] = geoJsonLayer;
 
             if (visible) {
-                layer.addTo(mapa); // Adiciona ao mapa se for para ser visível
+                geoJsonLayer.addTo(mapa); // Adiciona ao mapa se for para ser visível
             }
 
-            return layer; // Retorna a camada para ajuste de bounds, se necessário
+            return geoJsonLayer; // Retorna a camada para ajuste de bounds, se necessário
         } catch (error) {
             console.error(`Erro ao carregar ou processar ${fileName}:`, error);
             mostrarErro(`Falha ao carregar dados do mapa: ${fileName}.`);
