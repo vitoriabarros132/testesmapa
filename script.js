@@ -123,6 +123,13 @@ const layerStyles = {
         fillOpacity: 0.8
     }
 };
+    // Configuração dos atributos a serem usados como rótulos (tooltips permanentes)
+const labelAttributes = {
+    'chaves.geojson': 'NumPlaca',
+    'transformadores.geojson': 'NumPlaca',
+    'postes.geojson': 'Poste'
+    // Não precisamos configurar para rede_bt e rede_mt, pois não são pontos.
+};
     //------------------------------------
     function mostrarErro(mensagem) {
         mensagemErro.textContent = mensagem;
@@ -174,6 +181,35 @@ const layerStyles = {
                         if (popupContent) {
                             layer.bindPopup(popupContent);
                         }
+                        // === ADICIONAR RÓTULO/TOOLTIP AQUI ===
+                    
+                        const labelAttributeName = labelAttributes[fileName]; // Pega o nome do atributo de rótulo para este arquivo
+
+                        if (feature.geometry.type === 'Point' && labelAttributeName && feature.properties[labelAttributeName]) {
+                            const labelText = feature.properties[labelAttributeName].toString(); // Pega o valor do atributo específico
+
+                            const tooltip = layer.bindTooltip(labelText, {
+                                permanent: true, // Define se o rótulo é sempre visível
+                                direction: 'top', // Posição do rótulo
+                                className: 'point-label' // Classe CSS para estilização personalizada
+                            });
+
+                            // Opcional: Esconde o rótulo em zooms baixos para evitar sobreposição
+                            // Adapte o nível de zoom conforme a necessidade
+                            mapa.on('zoomend', function () {
+                                if (mapa.getZoom() < 17) { // Exemplo: esconde se o zoom for menor que 17
+                                    tooltip.setOpacity(0);
+                                } else {
+                                    tooltip.setOpacity(1);
+                                }
+                            });
+
+                            // Garante o estado inicial do rótulo ao carregar o mapa
+                            if (mapa.getZoom() < 17) {
+                                tooltip.setOpacity(0);
+                            }
+                        }
+                        // ====================================
                     }
                 }
             }; // Não adicione ao mapa ainda, apenas crie a camada
