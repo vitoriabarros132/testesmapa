@@ -80,14 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Esta lista agora inclui o estado inicial (checked: true/false)
     const geojsonLayerConfigs = [
         { name: 'chaves.geojson', label: 'Chaves', checked: false },
-        { name: 'postes.geojson', label: 'Postes', checked: false }, 
+        //{ name: 'postes.geojson', label: 'Postes', checked: false }, 
         { name: 'rede_mt.geojson', label: 'Rede MT', checked: false }, 
         { name: 'transformadores.geojson', label: 'Transformadores', checked: false }
     ];
 
     const popupDisplayConfigs = {
         'rede_mt.geojson': ['CTMT'],
-        'postes.geojson': ['Poste', 'Tipo_Poste', 'Coord_X', 'Coord_Y'], 
+        //'postes.geojson': ['Poste', 'Tipo_Poste', 'Coord_X', 'Coord_Y'], 
         'chaves.geojson': ['NumPlaca', 'Coordenada', 'Coordena_1'], 
         'transformadores.geojson': ['NumPlaca', 'Fases', 'Potencia', 'Num_Serie'] 
     };
@@ -99,14 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
             weight: 3,
             opacity: 0.7
         },
-        'postes.geojson': {
-            radius: 5, // Tamanho do ponto
-            fillColor: '#9d9d9d', // Cor do ponto - Cinza escuro
-            color: '#000', // Cor da borda - Preto
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        },
+        //'postes.geojson': {
+            //radius: 5, // Tamanho do ponto
+            //fillColor: '#9d9d9d', // Cor do ponto - Cinza escuro
+            //color: '#000', // Cor da borda - Preto
+            //weight: 1,
+            //opacity: 1,
+            //fillOpacity: 0.8
+        //},
         'chaves.geojson': {
             radius: 9,
             fillColor: '#3034a5', // Azul
@@ -264,26 +264,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        console.log("Camadas visíveis inicialmente para fitbounds:", initiallyVisibleLayers);
+        //console.log("Camadas visíveis inicialmente para fitbounds:", initiallyVisibleLayers);
         
         // Ajusta o zoom do mapa para cobrir as camadas visíveis inicialmente
         if (initiallyVisibleLayers.length > 0) {
             const featureGroupForBounds = new L.featureGroup(initiallyVisibleLayers);
             const bounds = featureGroupForBounds.getBounds(); // Calcule os limites
 
-            console.log("---------------------------------------");
-            console.log("Camadas no featureGroup para bounds:", initiallyVisibleLayers);
-            console.log("Objeto Bounds completo:", bounds); // Mostrar o objeto completo
-            console.log("Bounds são válidos?", bounds.isValid());
+            //console.log("---------------------------------------");
+            //console.log("Camadas no featureGroup para bounds:", initiallyVisibleLayers);
+            //console.log("Objeto Bounds completo:", bounds); // Mostrar o objeto completo
+            //console.log("Bounds são válidos?", bounds.isValid());
             // Verifique se as coordenadas são números válidos e não NaN/Infinity
-            console.log("Coordenadas SW (lat, lon):", bounds._southWest ? [bounds._southWest.lat, bounds._southWest.lng] : 'N/A');
-            console.log("Coordenadas NE (lat, lon):", bounds._northEast ? [bounds._northEast.lat, bounds._northEast.lng] : 'N/A');
-            console.log("---------------------------------------");
+            //console.log("Coordenadas SW (lat, lon):", bounds._southWest ? [bounds._southWest.lat, bounds._southWest.lng] : 'N/A');
+            //console.log("Coordenadas NE (lat, lon):", bounds._northEast ? [bounds._northEast.lat, bounds._northEast.lng] : 'N/A');
+            //console.log("---------------------------------------");
             
             if (bounds.isValid()) {
                 mapa.fitBounds(bounds);
             } else {
-                console.warn("Bounds inválidos para as GeoJSONs carregadas. Talvez as coordenadas estejam fora da tela ou os arquivos estejam vazios.");
+                //console.warn("Bounds inválidos para as GeoJSONs carregadas. Talvez as coordenadas estejam fora da tela ou os arquivos estejam vazios.");
                 mapa.setView([-11.296345, -37.365581], 12);
             }
         } else {
